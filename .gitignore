@@ -1,0 +1,24 @@
+# Dados sensíveis (emails, telefones, etc)
+*.csv
+alocacoes-*.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores / IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+
+# Dependências (caso adicione npm/build no futuro)
+node_modules/
+dist/
+build/
