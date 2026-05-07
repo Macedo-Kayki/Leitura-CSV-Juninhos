@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dashboard Juninhos — Censo & Banco de Ideias</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div>
+    <h1>Dashboard Juninhos · Censo & Banco de Ideias</h1>
+    <p id="subtitle">Carregue o CSV para visualizar os dados.</p>
+  </div>
+  <div class="actions">
+    <span class="pill" id="countPill" style="display:none">0 respostas</span>
+    <input type="file" id="fileInput" accept=".csv" style="display:none" />
+    <input type="file" id="importInput" accept=".json,application/json" style="display:none" />
+    <button class="btn" id="loadBtn">Carregar CSV</button>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs" style="display:none">
+  <button class="active" data-tab="overview">Visão Geral</button>
+  <button data-tab="people">Pessoas</button>
+  <button data-tab="bank">Banco de Ideias</button>
+  <button data-tab="ideas">Ideias & Equipes</button>
+  <span style="flex:1"></span>
+  <button class="btn ghost tiny" id="importBtn" style="margin:6px 8px 6px 0">Importar alocações</button>
+  <button class="btn ghost tiny" id="exportBtn" style="margin:6px 16px 6px 0">Exportar alocações</button>
+</nav>
+
+<div class="container">
+  <div id="empty" class="empty">
+    Clique em <b>Carregar CSV</b> e selecione <code>Censo e Banco de Ideias - Juninhos  .csv</code>.
+  </div>
+
+  <!-- ============ TAB: VISÃO GERAL ============ -->
+  <section class="tab-panel active" data-tab="overview" style="display:none">
+    <div class="cards" id="cards"></div>
+    <div class="grid">
+      <div class="panel col-4"><h3>Nível de experiência</h3><div class="chart-wrap"><canvas id="chartLevel"></canvas></div></div>
+      <div class="panel col-4"><h3>Disponibilidade semanal</h3><div class="chart-wrap"><canvas id="chartHours"></canvas></div></div>
+      <div class="panel col-4"><h3>Experiência com GitHub</h3><div class="chart-wrap"><canvas id="chartGithub"></canvas></div></div>
+      <div class="panel col-6"><h3>Áreas de atuação</h3><div class="chart-wrap"><canvas id="chartAreas"></canvas></div></div>
+      <div class="panel col-6"><h3>Top tecnologias mencionadas</h3><div class="chart-wrap"><canvas id="chartTechs"></canvas></div></div>
+      <div class="panel col-6"><h3>Estágio das ideias</h3><div class="chart-wrap"><canvas id="chartStage"></canvas></div></div>
+      <div class="panel col-6"><h3>Preferência de trabalho em grupo</h3><div class="chart-wrap"><canvas id="chartWork"></canvas></div></div>
+    </div>
+    <p class="footer" id="footer"></p>
+  </section>
+
+  <!-- ============ TAB: PESSOAS ============ -->
+  <section class="tab-panel" data-tab="people" style="display:none">
+    <div class="filters">
+      <input id="pSearch" placeholder="Buscar nome, email, ideia..." />
+      <select id="pLevel"><option value="">Todos os níveis</option></select>
+      <select id="pArea"><option value="">Todas as áreas</option></select>
+      <input id="pTech" placeholder="Tecnologia (ex: react, python)" />
+      <select id="pHours"><option value="">Horas/semana</option></select>
+      <select id="pGithub"><option value="">Experiência GitHub</option></select>
+      <select id="pWork"><option value="">Preferência de trabalho</option></select>
+      <select id="pAvail"><option value="">Disponível em maio?</option><option>Sim</option><option>Não</option></select>
+    </div>
+    <div class="summary-bar" id="pSummary"></div>
+    <div class="scroll">
+      <table id="peopleTable">
+        <thead>
+          <tr>
+            <th>Nome</th><th>Email</th><th>Nível</th><th>Áreas</th>
+            <th>Tecnologias</th><th>GitHub</th><th>h/sem</th><th>Ideia</th>
+            <th>Trabalho</th><th>Maio?</th><th>Em equipes</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ TAB: BANCO DE IDEIAS ============ -->
+  <section class="tab-panel" data-tab="bank" style="display:none">
+    <div class="filters">
+      <input id="bSearch" placeholder="Buscar ideia, descrição, autor, tecnologia..." />
+      <select id="bStage"><option value="">Estágio</option></select>
+      <select id="bLevel"><option value="">Nível do autor</option></select>
+      <select id="bArea"><option value="">Área</option></select>
+    </div>
+    <div class="summary-bar" id="bSummary"></div>
+    <div class="bank-grid" id="bankGrid"></div>
+  </section>
+
+  <!-- ============ TAB: IDEIAS & EQUIPES ============ -->
+  <section class="tab-panel" data-tab="ideas" style="display:none">
+    <div class="idea-board">
+      <aside class="idea-list">
+        <input id="iSearch" placeholder="Buscar ideia..." />
+        <div class="list" id="ideaList"></div>
+      </aside>
+      <div class="idea-detail" id="ideaDetail">
+        <div class="empty-mini">Selecione uma ideia à esquerda para começar a montar a equipe.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</body>
+</html>
